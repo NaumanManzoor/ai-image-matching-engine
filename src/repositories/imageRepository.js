@@ -13,6 +13,11 @@ async function findById(id) {
   return rows[0] || null;
 }
 
+async function findByFilename(filename) {
+  const { rows } = await pool.query(`SELECT ${COLUMNS} FROM images WHERE filename = $1`, [filename]);
+  return rows[0] || null;
+}
+
 async function findNeedingTags() {
   const { rows } = await pool.query(
     `SELECT id, filename FROM images WHERE status IN ('pending', 'failed') ORDER BY id`
@@ -68,4 +73,4 @@ async function findNeedingEmbeddings(model) {
   return rows;
 }
 
-module.exports = { findEmbeddable, findNeedingEmbeddings, findAll, findById, findNeedingTags, saveTags, markFailed, countByStatus };
+module.exports = { findEmbeddable, findNeedingEmbeddings, findAll, findById, findByFilename, findNeedingTags, saveTags, markFailed, countByStatus };

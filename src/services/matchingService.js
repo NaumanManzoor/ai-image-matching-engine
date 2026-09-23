@@ -74,10 +74,10 @@ async function suggestImages(postId) {
 }
 
 // Forces ONE specific image through the guard for a post (e.g. the wolf on the fox post).
-async function checkImage(postId, imageId) {
+async function checkImage(postId, { imageId, filename }) {
   const { post, vectors } = await loadPost(postId);
-  const image = await images.findById(imageId);
-  if (!image) throw new NotFoundError(`Image ${imageId} not found`);
+  const image = imageId ? await images.findById(imageId) : await images.findByFilename(filename);
+  if (!image) throw new NotFoundError(`Image ${imageId || filename} not found`);
   const imageVectors = await embeddings.findForOwner('image', image.id, config.EMBED_MODEL);
   if (!imageVectors) throw new NotReadyError(`Image ${imageId} is not embedded yet`);
 

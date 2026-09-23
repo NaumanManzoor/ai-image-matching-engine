@@ -2,7 +2,11 @@ const { z } = require('zod');
 
 const IdParams = z.object({ id: z.coerce.number().int().positive() });
 
-const CheckBody = z.object({ imageId: z.coerce.number().int().positive() });
+// Pick the candidate image by id or by filename (e.g. {"filename": "wolf_01.jpg"}).
+const CheckBody = z.object({
+  imageId: z.coerce.number().int().positive().optional(),
+  filename: z.string().trim().min(1).max(200).optional(),
+}).refine((b) => b.imageId || b.filename, { message: 'Provide imageId or filename' });
 
 const ReviewBody = z.object({ note: z.string().trim().max(500).optional() });
 

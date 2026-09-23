@@ -29,8 +29,8 @@ async function suggestImages(req, res) {
 
 async function checkImage(req, res) {
   const { id } = parseParams(IdParams, req);
-  const { imageId } = parseBody(CheckBody, req);
-  res.json(await matching.checkImage(id, imageId));
+  const body = parseBody(CheckBody, req);
+  res.json(await matching.checkImage(id, body));
 }
 
 module.exports = { list, getOne, create, suggestImages, checkImage };
