@@ -1,0 +1,52 @@
+name: ai-image-matching-engine
+title: AI Image Matching Engine – FlyRank Internship Project
+track: Backend AI Engineering
+
+# Before running: copy .env.example to .env and set GEMINI_API_KEY (free key from aistudio.google.com)
+run: docker compose up --build -d
+seed: docker compose exec app npm run seed
+test: docker compose exec app npm run eval
+base_url: http://localhost:3000
+
+# After seeding, start the AI batch jobs (about 10 minutes on the free tier):
+#   curl -X POST http://localhost:3000/jobs/ingest-images
+#   curl -X POST http://localhost:3000/jobs/ingest-posts
+# Progress: GET /jobs/status  (done when pending = 0 and embedded = {image: 54, post: 12})
+
+endpoints:
+  - GET  /health
+  - POST /jobs/ingest-images
+  - POST /jobs/ingest-posts
+  - GET  /jobs/status
+  - GET  /images
+  - GET  /images/:id
+  - GET  /posts
+  - POST /posts
+  - GET  /posts/:id
+  - GET  /posts/:id/images
+  - POST /posts/:id/check
+  - GET  /suggestions/:id
+  - POST /suggestions/:id/approve
+  - POST /suggestions/:id/reject
+  - GET  /costs
+
+probes:
+  - id: 1
+    name: Batch tagging with flagged low-confidence images
+    request: POST /jobs/ingest-images, then GET /jobs/status
+    expect: images.pending = 0, images.flagged >= 1
+  - id: 2
+    name: Fox post ranks a fox first
+    request: GET /posts/1/images
+    expect: suggestion.filename starts with fox_
+  - id: 3
+    name: Guard rejects the wolf on the fox post
+    request: 'POST /posts/1/check  body: {"filename": "wolf_01.jpg"}'
+    expect: result = REJECTED, with a subject-mismatch reason
+  - id: 4
+    name: No suitable image
+    request: GET /posts/11/images
+    expect: result = "no confident match", with reasons
+  - id: 5
+    name: Eval precision matches README
+    request: docker compose exec
