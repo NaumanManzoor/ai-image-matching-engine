@@ -1,0 +1,36 @@
+{
+  "name": "ai-image-matching-engine",
+  "version": "1.0.0",
+  "description": "Final capstone project for the FlyRank Backend AI Engineering Internship. An AI system that tags images, matches them to blog posts by meaning, and safely rejects wrong matches. Built with Node.js, Express, Gemini and PostgreSQL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test-gemini": "node scripts/test-gemini.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaumanManzoor/ai-image-matching-engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NaumanManzoor/ai-image-matching-engine/issues"
+  },
+  "homepage": "https://github.com/NaumanManzoor/ai-image-matching-engine#readme",
+  "dependencies": {
+    "@google/genai": "^2.24.0",
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "pg-boss": "^12.33.6",
+    "sharp": "^0.35.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
