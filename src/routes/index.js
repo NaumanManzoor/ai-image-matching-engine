@@ -2,6 +2,7 @@ const express = require('express');
 const jobs = require('../controllers/jobsController');
 const imagesCtl = require('../controllers/imagesController');
 const postsCtl = require('../controllers/postsController');
+const suggestionsCtl = require('../controllers/suggestionsController');
 const costs = require('../controllers/costsController');
 
 const router = express.Router();
@@ -18,6 +19,10 @@ router.post('/posts', postsCtl.create);
 router.get('/posts/:id', postsCtl.getOne);
 router.get('/posts/:id/images', postsCtl.suggestImages);
 router.post('/posts/:id/check', postsCtl.checkImage);
+
+router.get('/suggestions/:id', suggestionsCtl.getOne);
+router.post('/suggestions/:id/approve', suggestionsCtl.approve);
+router.post('/suggestions/:id/reject', suggestionsCtl.reject);
 
 router.get('/costs', costs.getCosts);
 

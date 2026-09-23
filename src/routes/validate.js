@@ -4,6 +4,8 @@ const IdParams = z.object({ id: z.coerce.number().int().positive() });
 
 const CheckBody = z.object({ imageId: z.coerce.number().int().positive() });
 
+const ReviewBody = z.object({ note: z.string().trim().max(500).optional() });
+
 const CreatePostBody = z.object({
   slug: z.string().trim().min(3).max(100).regex(/^[a-z0-9-]+$/, 'lowercase letters, numbers and hyphens only'),
   title: z.string().trim().min(3).max(200),
@@ -19,4 +21,4 @@ function parseBody(schema, req) {
   return schema.parse(req.body ?? {});
 }
 
-module.exports = { IdParams, CheckBody, CreatePostBody, parseParams, parseBody };
+module.exports = { IdParams, CheckBody, ReviewBody, CreatePostBody, parseParams, parseBody };
