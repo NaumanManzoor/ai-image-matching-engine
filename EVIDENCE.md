@@ -533,3 +533,28 @@ One row per AI call. cost_usd is the equivalent paid-tier price; actual spend is
 {"message":"Suggestion 6 was already rejected (no change)","review":{"id":3,"suggestion_id":6,"action":"reject","note":"A dog is not a goldfish","created_at":"2026-09-23T13:45:56.808Z"}}
 {"error":"Invalid request","details":[{"field":"id","message":"Invalid input: expected number, received NaN"}]}
 ```
+
+## Quality
+
+### 11. Labeled eval set measures top-1 precision (npm run eval)
+Labels: `eval/labels.json` (12 posts; correct = right animal, or "no confident match" for the goldfish and mountain-bike posts).
+```
+┌─────────┬────────────────────────────┬──────────────────────┬──────────────────────┬─────────┐
+│ (index) │ post                       │ expected             │ got                  │ correct │
+├─────────┼────────────────────────────┼──────────────────────┼──────────────────────┼─────────┤
+│ 0       │ 'red-fox-behavior'         │ 'fox_*'              │ 'fox_06.jpg'         │ 'yes'   │
+│ 1       │ 'vulpes-vulpes-diet'       │ 'fox_*'              │ 'fox_07.jpg'         │ 'yes'   │
+│ 2       │ 'gray-wolf-pack-life'      │ 'wolf_*'             │ 'wolf_07.jpg'        │ 'yes'   │
+│ 3       │ 'canis-lupus-howling'      │ 'wolf_*'             │ 'wolf_04.jpg'        │ 'yes'   │
+│ 4       │ 'dog-training-basics'      │ 'dog_*'              │ 'dog_02.jpg'         │ 'yes'   │
+│ 5       │ 'choosing-a-family-dog'    │ 'dog_*'              │ 'dog_07.jpg'         │ 'yes'   │
+│ 6       │ 'brown-bear-hibernation'   │ 'bear_*'             │ 'bear_09.jpg'        │ 'yes'   │
+│ 7       │ 'grizzly-salmon-run'       │ 'bear_*'             │ 'bear_06.jpg'        │ 'yes'   │
+│ 8       │ 'how-deer-grow-antlers'    │ 'deer_*'             │ 'deer_09.jpg'        │ 'yes'   │
+│ 9       │ 'spotting-fawns-in-spring' │ 'deer_*'             │ 'deer_07.jpg'        │ 'yes'   │
+│ 10      │ 'pet-goldfish-care'        │ 'no confident match' │ 'no confident match' │ 'yes'   │
+│ 11      │ 'mountain-bike-trail-tips' │ 'no confident match' │ 'no confident match' │ 'yes'   │
+└─────────┴────────────────────────────┴──────────────────────┴──────────────────────┴─────────┘
+
+Top-1 precision: 12/12 = 100.0%
+```

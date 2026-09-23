@@ -1,0 +1,17 @@
+{
+  "rule": "A post is correct if the top accepted image shows the right animal (any image whose filename starts with one of `accept`), or if `accept` is empty and the system answers \"no confident match\".",
+  "labels": [
+    { "post": "red-fox-behavior",         "accept": ["fox_"] },
+    { "post": "vulpes-vulpes-diet",       "accept": ["fox_"] },
+    { "post": "gray-wolf-pack-life",      "accept": ["wolf_"] },
+    { "post": "canis-lupus-howling",      "accept": ["wolf_"] },
+    { "post": "dog-training-basics",      "accept": ["dog_"] },
+    { "post": "choosing-a-family-dog",    "accept": ["dog_"] },
+    { "post": "brown-bear-hibernation",   "accept": ["bear_"] },
+    { "post": "grizzly-salmon-run",       "accept": ["bear_"] },
+    { "post": "how-deer-grow-antlers",    "accept": ["deer_"] },
+    { "post": "spotting-fawns-in-spring", "accept": ["deer_"] },
+    { "post": "pet-goldfish-care",        "accept": [] },
+    { "post": "mountain-bike-trail-tips", "accept": [] }
+  ]
+}

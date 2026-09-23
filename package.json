@@ -12,7 +12,8 @@
     "resize": "node scripts/resize-corpus.js",
     "seed": "node scripts/seed.js",
     "tag-one": "node scripts/tag-one.js",
-    "similarities": "node scripts/similarities.js"
+    "similarities": "node scripts/similarities.js",
+    "eval": "node scripts/eval.js"
   },
   "repository": {
     "type": "git",
