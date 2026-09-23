@@ -14,5 +14,20 @@ services:
       interval: 5s
       retries: 10
 
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgres://app:app@db:5432/imagematch
+      PORT: "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:
