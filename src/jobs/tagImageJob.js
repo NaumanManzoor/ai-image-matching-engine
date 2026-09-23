@@ -2,6 +2,7 @@ const config = require('../config');
 const { boss } = require('./boss');
 const images = require('../repositories/imageRepository');
 const { tagImage } = require('../services/visionService');
+const embedImageJob = require('./embedImageJob');
 
 const QUEUE = 'tag-image';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -27,6 +28,7 @@ async function register() {
       await images.saveTags(image.id, tags, flagged);
       console.log(`[tag-image] #${image.id} ${image.filename} -> ${tags.subject} ` +
         `(${tags.confidence})${flagged ? ' FLAGGED' : ''}`);
+      await embedImageJob.enqueue(image.id); // next step: embeddings
     } catch (err) {
       const isLastAttempt = job.retryCount >= job.retryLimit;
       console.warn(`[tag-image] #${image.id} attempt ${job.retryCount + 1}/${job.retryLimit + 1} failed: ${err.message}`);

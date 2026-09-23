@@ -48,4 +48,24 @@ async function countByStatus() {
   return counts;
 }
 
-module.exports = { findAll, findById, findNeedingTags, saveTags, markFailed, countByStatus };
+async function findEmbeddable() {
+  const { rows } = await pool.query(
+    `SELECT ${COLUMNS} FROM images WHERE status IN ('tagged', 'flagged') ORDER BY id`
+  );
+  return rows;
+}
+
+// Tagged/flagged images that do not yet have both embeddings for the current model.
+async function findNeedingEmbeddings(model) {
+  const { rows } = await pool.query(
+    `SELECT i.id FROM images i
+      WHERE i.status IN ('tagged', 'flagged')
+        AND (SELECT count(*) FROM embeddings e
+              WHERE e.owner_type = 'image' AND e.owner_id = i.id AND e.model = $1) < 2
+      ORDER BY i.id`,
+    [model]
+  );
+  return rows;
+}
+
+module.exports = { findEmbeddable, findNeedingEmbeddings, findAll, findById, findNeedingTags, saveTags, markFailed, countByStatus };

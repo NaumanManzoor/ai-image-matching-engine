@@ -11,7 +11,8 @@
     "migrate": "node src/db/migrate.js",
     "resize": "node scripts/resize-corpus.js",
     "seed": "node scripts/seed.js",
-    "tag-one": "node scripts/tag-one.js"
+    "tag-one": "node scripts/tag-one.js",
+    "similarities": "node scripts/similarities.js"
   },
   "repository": {
     "type": "git",

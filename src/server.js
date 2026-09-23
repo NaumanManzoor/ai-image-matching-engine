@@ -4,6 +4,7 @@ const { ZodError } = require('zod');
 const { pool } = require('./db/pool');
 const routes = require('./routes');
 const { startJobs } = require('./jobs');
+const { NotReadyError, NotFoundError } = require('./services/matchingService');
 
 const app = express();
 app.use(express.json());
@@ -29,6 +30,9 @@ app.use((err, req, res, next) => {
       details: err.issues.map((i) => ({ field: i.path.join('.'), message: i.message })),
     });
   }
+  if (err instanceof NotFoundError) return res.status(404).json({ error: err.message });
+  if (err instanceof NotReadyError) return res.status(409).json({ error: err.message });
+  if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON body' });
   console.error(err);
   res.status(500).json({ error: 'Internal server error' });
 });
